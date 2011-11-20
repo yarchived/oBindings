@@ -143,11 +143,40 @@ local typeTable = {
 	m = 'macro',
 }
 
+local modifiers = {
+    alt = true,
+    ctrl = true,
+    shift = true,
+}
+
+local _modifiers = {
+}
+
 local bindKey = function(key, action, mod)
 	local modKey
-	if(mod and (mod == 'alt' or mod == 'ctrl' or mod == 'shift')) then
-		modKey = mod:upper() .. '-' .. key
-	end
+
+    if(mod) then
+        modKey = _modifiers[mod]
+
+        if(modKey == nil) then
+            modKey = mod:upper()
+            for key in mod:gmatch'([^%-]+)' do
+                if(not modifiers[key]) then
+                    modKey = false
+                    break
+                end
+            end
+            _modifiers[mod] = modKey
+        end
+
+        if(modKey) then
+            modKey = modKek .. '-' .. key
+        end
+    end
+
+	--if(mod and (mod == 'alt' or mod == 'ctrl' or mod == 'shift')) then
+	--	modKey = mod:upper() .. '-' .. key
+	--end
 
 	local ty, action = string.split('|', action)
 	if(not action) then
