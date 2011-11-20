@@ -156,7 +156,7 @@ local bindKey = function(key, action, mod)
 	local modKey
 
     if(mod) then
-        modKey = _modifiers[mod]
+        modKey = modifiers[mod] and mod or _modifiers[mod]
 
         if(modKey == nil) then
             modKey = mod:upper()
@@ -170,7 +170,7 @@ local bindKey = function(key, action, mod)
         end
 
         if(modKey) then
-            modKey = modKek .. '-' .. key
+            modKey = modKey .. '-' .. key
         end
     end
 
