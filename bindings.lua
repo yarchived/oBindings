@@ -143,30 +143,30 @@ local typeTable = {
 	m = 'macro',
 }
 
-local modifiers = {
+local _modifiers = {
     alt = true,
     ctrl = true,
     shift = true,
-}
-
-local _modifiers = {
 }
 
 local bindKey = function(key, action, mod)
 	local modKey
 
     if(mod) then
-        modKey = modifiers[mod] and mod or _modifiers[mod]
+        modKey = _modifiers[mod]
 
         if(modKey == nil) then
             modKey = mod:upper()
             for key in mod:gmatch'([^%-]+)' do
-                if(not modifiers[key]) then
+                if(not _modifiers[key]) then
                     modKey = false
                     break
                 end
             end
             _modifiers[mod] = modKey
+        elseif(modKey == true) then
+            _modifiers[mod] = mod:upper()
+            modKey = _modifiers[mod]
         end
 
         if(modKey) then
